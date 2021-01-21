@@ -50,6 +50,8 @@ class FFElement:
             return -1
         elif(self.value==1):
             return 1
+        if (self.Mul(self).value==1):
+                return 2    
         #if (p-1)/2 is prime, then its the only number needs to be checked
         elif(special):
             if((self.MulPower((self.characteristic-1)/2)).value==1):

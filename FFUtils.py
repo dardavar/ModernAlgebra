@@ -8,7 +8,7 @@ def SuperPower(a,b,n):
         a = SuperPower(a,b/2,n)
         return (a*a)%n
 
-#returns the gcd of a and b, and x1, x2 s.t. gcd(a,b)=x*a+y*b.
+#returns the gcd of a and b, and x, y s.t. gcd(a,b)=x*a+y*b.
 def ExtendedEuclideanAlgorithm(a,b):
     if(a==0):
         return b,0,1
