@@ -1,6 +1,6 @@
 import FFUtils
 
-DEFAULT_CHARACTERISTIC = 7
+DEFAULT_CHARACTERISTIC = 179
 
 
 class FFElement:
@@ -24,7 +24,7 @@ class FFElement:
                 raise ZeroDivisionError
         except ZeroDivisionError:
             print("Can not divide by 0, returning -1")
-            return FFElement(-1)
+            return -1
         return self * (other.multiplication_inverse())
 
     def __str__(self):
@@ -50,7 +50,7 @@ class FFElement:
                              self.characteristic)
         except ZeroDivisionError:
             print("Zero have no inverse, returning -1")
-            return FFElement(-1)
+            return -1
 
     def additive_order(self):
         if self.value == 0:
@@ -63,7 +63,7 @@ class FFElement:
     def __pow__(self, power):
         return FFElement(FFUtils.super_power(self.value, power, self.characteristic), self.characteristic)
 
-    def multiplication_order(self, special=True):  # TODO: THINK THAT THERE IS MISTAKE HERE TEST IT!
+    def multiplication_order(self, special=True):
         # define o(0) as -1
         if self.value == 0:
             return -1
@@ -81,8 +81,8 @@ class FFElement:
 
         # if (p-1)/2 isn't prime, check every divisor of (p-1)/2
         else:
-            for i in range(2, self.characteristic - 1):
+            for i in range(3, (self.characteristic - 1) // 2 + 1):
                 if ((self.characteristic - 1) % i) == 0:
-                    if self ** i.value == 1:
+                    if (self ** i).value == 1:
                         return i
         return self.characteristic - 1

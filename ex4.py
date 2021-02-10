@@ -1,16 +1,20 @@
-from FFElement import FFElement
+from FFElement import FFElement, DEFAULT_CHARACTERISTIC
 
 
-def solver():
-    x = FFElement(4, 7)
-    y = FFElement(27, 7)
-    a = FFElement(2)
-    b = FFElement(2)
-    while (x * (a ** 3) + y * (b ** 2)).value == 0:
-        a = a + FFElement(1)
-        b = b + FFElement(1)
+def solver(coefficient_a, coefficient_b, p=DEFAULT_CHARACTERISTIC):
+    """Find a,b from Fp which solve the expression (coefficient_a*a**3 + coefficient_b+b**2 !=0)mod p"""
+    coefficient_a = FFElement(coefficient_a, p)
+    coefficient_b = FFElement(coefficient_b, p)
+
+    for i in range(2, p):
+        for j in range(2, p):
+            a = FFElement(i)
+            b = FFElement(j)
+            if (coefficient_a * (a ** 3) + coefficient_b * (b ** 2)).value != 0:
+                break
+
     print(f"a is {a} and b is {b}")
 
 
 if __name__ == '__main__':
-    solver()
+    solver(4, 27)
