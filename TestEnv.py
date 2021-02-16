@@ -54,6 +54,10 @@ class TestFFEElement(unittest.TestCase):
         self.assertEqual(FFElement(2) - FFElement(5), FFElement(176))
         self.assertEqual(FFElement(9, 11) - FFElement(6, 11), FFElement(3, 11))
 
+    def test_curve(self):
+        for i in range(0,179):
+            self.assertNotEqual(FFElement(i,179)**3+FFElement(178,179)*FFElement(i,179)+FFElement(2,179),FFElement(0,179))
+
 
 if __name__ == '__main__':
     unittest.main()
