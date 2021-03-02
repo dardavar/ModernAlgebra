@@ -10,7 +10,7 @@ class EllipticCurveGroup:
         self.b = FFElement(b,p)
         self.p = p
         
-        if FFElement(4,p)*(a**3)+FFElement(27,p)*(b**2) == 0:
+        if FFElement(4,p)*(a**3)+FFElement(27,p)*(b**2) == FFElement(0,p):
             raise ValueError
     
     def generate_identity_element(self):

@@ -1,5 +1,5 @@
 from EllipticCurveGroup import EllipticCurveGroup
-from FFElement import FFElement, DEFAULT_CHARACTERISTIC
+from FFElement          import FFElement, DEFAULT_CHARACTERISTIC
 
 class EllipticCurveElement:
 
