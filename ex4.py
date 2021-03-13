@@ -17,4 +17,4 @@ def solver(coefficient_a, coefficient_b, p=DEFAULT_CHARACTERISTIC):
 
 
 if __name__ == '__main__':
-    solver(4, 27)
+    solver(4, 27,11)

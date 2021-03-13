@@ -1,6 +1,4 @@
-from EllipticCurveGroup import EllipticCurveGroup
-from FFElement          import FFElement, DEFAULT_CHARACTERISTIC
-
+from FFElement import FFElement, DEFAULT_CHARACTERISTIC
 class EllipticCurveElement:
 
     def __init__(self,group, X, Y, Z):

@@ -1,8 +1,11 @@
 import unittest
-
+import math
 import FFUtils
-from FFElement import FFElement
-
+from FFElement            import FFElement, DEFAULT_CHARACTERISTIC
+from EllipticCurveGroup   import EllipticCurveGroup
+from EllipticCurveElement import EllipticCurveElement
+from AffineGroup          import AffineGroup
+from AffineElement        import AffineElement
 
 class TestFFEElement(unittest.TestCase):
 
@@ -54,10 +57,50 @@ class TestFFEElement(unittest.TestCase):
         self.assertEqual(FFElement(2) - FFElement(5), FFElement(176))
         self.assertEqual(FFElement(9, 11) - FFElement(6, 11), FFElement(3, 11))
 
-    def test_curve(self):
-        for i in range(0,179):
-            self.assertNotEqual(FFElement(i,179)**3+FFElement(178,179)*FFElement(i,179)+FFElement(2,179),FFElement(0,179))
+class TestEllipticCurveGroup(unittest.TestCase):
+    def test_order(self):
+        self.assertEqual(EllipticCurveGroup(6,2,7).group_order(),9)
+        self.assertEqual(EllipticCurveGroup(10,3,11).group_order(),17)
 
+class TestAffineGroup(unittest.TestCase):
+    def test_inverse(self):
+        elliptic_curve = EllipticCurveGroup(6,2,7)
+        affine_group = AffineGroup(elliptic_curve)
+        self.assertEqual(AffineElement(affine_group,FFElement(2,7),FFElement(6,7)).inverse(),AffineElement(affine_group,FFElement(2,7),FFElement(1,7)))
+        self.assertEqual(AffineElement(affine_group,FFElement(6,7),FFElement(3,7)).inverse(),AffineElement(affine_group,FFElement(6,7),FFElement(4,7)))
+        self.assertEqual(AffineElement(affine_group,FFElement(1,7),FFElement(0,7)).inverse(),AffineElement(affine_group,FFElement(1,7),FFElement(0,7)))
+    
+    def test_addition(self):
+        elliptic_curve = EllipticCurveGroup(6,2,7)
+        affine_group = AffineGroup(elliptic_curve)
+        self.assertEqual(AffineElement(affine_group,FFElement(1,7),FFElement(0,7))+AffineElement(affine_group,FFElement(6,7),FFElement(3,7)), AffineElement(affine_group,FFElement(6,7),FFElement(3,7)))
+        self.assertEqual(AffineElement(affine_group,FFElement(6,7),FFElement(3,7))+AffineElement(affine_group,FFElement(6,7),FFElement(4,7)), AffineElement(affine_group,FFElement(1,7),FFElement(0,7)))
+        self.assertEqual(AffineElement(affine_group,FFElement(6,7),FFElement(3,7))+AffineElement(affine_group,FFElement(6,7),FFElement(3,7)), AffineElement(affine_group,FFElement(6,7),FFElement(4,7)))
+        self.assertEqual(AffineElement(affine_group,FFElement(6,7),FFElement(3,7))+AffineElement(affine_group,FFElement(2,7),FFElement(6,7)), AffineElement(affine_group,FFElement(0,7),FFElement(3,7)))
+    
+    def test_element_order(self):
+        elliptic_curve = EllipticCurveGroup(6,2,7)
+        affine_group = AffineGroup(elliptic_curve)
+        self.assertEqual(AffineElement(affine_group,FFElement(2,7),FFElement(6,7)).calc_order(),9)
+        self.assertEqual(AffineElement(affine_group,FFElement(6,7),FFElement(3,7)).calc_order(),3)
+        self.assertEqual(AffineElement(affine_group,FFElement(1,7),FFElement(0,7)).calc_order(),1)
+    
+    def test_power(self):
+        elliptic_curve = EllipticCurveGroup(6,2,7)
+        affine_group = AffineGroup(elliptic_curve)
+        self.assertEqual(AffineElement(affine_group,FFElement(6,7),FFElement(3,7)).multiply_by_value(0),affine_group.generate_identity_element())
+        self.assertEqual(AffineElement(affine_group,FFElement(6,7),FFElement(3,7)).multiply_by_value(1),AffineElement(affine_group,FFElement(6,7),FFElement(3,7)))
+        self.assertEqual(AffineElement(affine_group,FFElement(6,7),FFElement(3,7)).multiply_by_value(5),AffineElement(affine_group,FFElement(6,7),FFElement(4,7)))
+    
+    def test_hasse_thm(self):
+        elliptic_curve = EllipticCurveGroup(6,2,7)
+        self.assertTrue(AffineGroup(elliptic_curve).check_hasse_theorem())
+
+        EllipticCurveGroup(10,3,11)
+        self.assertTrue(AffineGroup(elliptic_curve).check_hasse_theorem())
+
+        elliptic_curve = EllipticCurveGroup()
+        self.assertTrue(AffineGroup(elliptic_curve).check_hasse_theorem())
 
 if __name__ == '__main__':
     unittest.main()
