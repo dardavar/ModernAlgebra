@@ -65,6 +65,8 @@ class FFElement:
 
     def multiplication_order(self, special=True):
         # define o(0) as -1
+        # if P is safe, than P-1 = 2q => O(a) in {1, 2 , q , p-1}, this is due to the fact that the order must divide
+        # p-1 and the prime factorization is unique.
         if self.value == 0:
             return -1
 
