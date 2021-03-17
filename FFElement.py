@@ -38,7 +38,7 @@ class FFElement:
 
     def additive_inverse(self):
         if self.value == 0:
-            return FFElement(0)
+            return FFElement(0, self.characteristic)
 
         return FFElement(self.characteristic - self.value, self.characteristic)
 

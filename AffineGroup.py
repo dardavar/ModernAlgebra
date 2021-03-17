@@ -35,4 +35,4 @@ class AffineGroup:
         return abs(all_points_size - (self.p + 1)) <= 2 * math.sqrt(self.p)
 
     def generate_identity_element(self):
-        return AffineElement(self, FFElement(1, self.p), FFElement(0, self.p))
+        return AffineElement(self, FFElement(0, self.p), FFElement(1, self.p))

@@ -5,15 +5,12 @@ class AffineElement:
 
     def __init__(self, affine_group, x, y):
 
-        if y.value != 0:
-            self.x = x
-        else:  # The identity element
-            self.x = FFElement(1, affine_group.p)
 
+        self.x = x
         self.y = y
         self.affine_group = affine_group
 
-        if (y.value != 0) and ((y ** 2 - x ** 3 - affine_group.a * x - affine_group.b).value != 0):
+        if (not self.is_identity()) and ((y ** 2 - x ** 3 - affine_group.a * x - affine_group.b).value != 0):
             raise ValueError
 
     def __str__(self):
@@ -22,6 +19,8 @@ class AffineElement:
         return f"({self.x}, {self.y})"
 
     def inverse(self):
+        if self.is_identity():
+            return self
         return AffineElement(self.affine_group, self.x, self.y.additive_inverse())
     
     def __eq__(self,other):
@@ -82,4 +81,4 @@ class AffineElement:
         print(subgroup)
 
     def is_identity(self):
-        return self.x.value == 1 and self.y.value == 0
+        return self.x.value == 0 and self.y.value == 1
