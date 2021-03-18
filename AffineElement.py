@@ -38,6 +38,7 @@ class AffineElement:
             return self.affine_group.generate_identity_element()
         else:
             if self == other:
+                #find m using a diffrential eq.
                 m = (FFElement(3, self.affine_group.p) * self.x ** 2 + self.affine_group.a) / (
                             FFElement(2, self.affine_group.p) * self.y)
             else:
@@ -46,7 +47,7 @@ class AffineElement:
             y_R = m * (self.x - x_R) - self.y
             return AffineElement(self.affine_group, x_R, y_R)
 
-    # returns nP
+    # returns nP using superPower!
     def multiply_by_value(self, n):
         if n == 0:
             return self.affine_group.generate_identity_element()
@@ -56,6 +57,7 @@ class AffineElement:
             a = self.multiply_by_value(n / 2)
             return a + a
 
+    #calc the order of an element by add  it to itself.
     def calc_order(self):
         element_order = 0
         group_order = self.affine_group.order

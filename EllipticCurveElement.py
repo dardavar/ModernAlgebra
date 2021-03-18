@@ -9,6 +9,7 @@ class EllipticCurveElement:
         self.Z = FFElement(Z, group.p)
         self.group = group
 
+        #check the X,Y,Z are valid
         if (Y ** 2) * Z != X ** 3 + group.a * X * Z ** 2 + group.b * Z ** 3:
             raise ValueError
 

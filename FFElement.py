@@ -8,12 +8,15 @@ class FFElement:
         self.value = value % characteristic
         self.characteristic = characteristic
 
+    #+ mod p
     def __add__(self, other):
         return FFElement((self.value + other.value) % self.characteristic, self.characteristic)
 
+    #add the additive_inverse
     def __sub__(self, other):
         return FFElement((self.value + other.additive_inverse().value) % self.characteristic, self.characteristic)
 
+    # * mod p
     def __mul__(self, other):
         return FFElement((self.value * other.value) % self.characteristic, self.characteristic)
 
@@ -36,12 +39,14 @@ class FFElement:
     def __eq__(self, other):
         return self.value == other.value and self.characteristic == other.characteristic
 
+    # -x = p-x
     def additive_inverse(self):
         if self.value == 0:
             return FFElement(0, self.characteristic)
 
         return FFElement(self.characteristic - self.value, self.characteristic)
 
+    #since p,x are coprime, we can get the inverse using the extended euclidean algorithm
     def multiplication_inverse(self):
         try:
             if self.value == 0:
@@ -52,14 +57,17 @@ class FFElement:
             print("Zero have no inverse, returning -1")
             return -1
 
+    #the order must divide p so its either 1 (for 0) or p (for any other element)
     def additive_order(self):
         if self.value == 0:
             return 1
         return self.characteristic
 
+    # nx = n*x mod p
     def additive_power(self, power):
         return FFElement((self.value * power) % self.characteristic, self.characteristic)
 
+    #calculate the powers efficiently using super power
     def __pow__(self, power):
         return FFElement(FFUtils.super_power(self.value, power, self.characteristic), self.characteristic)
 
@@ -76,7 +84,7 @@ class FFElement:
         if (self * self).value == 1:
             return 2
 
-            # if (p-1)/2 is prime, then its the only number needs to be checked
+        # if (p-1)/2 is prime, then its the only number needs to be checked
         elif special:
             if (self ** ((self.characteristic - 1) / 2)).value == 1:
                 return (self.characteristic - 1) / 2
