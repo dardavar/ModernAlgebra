@@ -1,9 +1,9 @@
-import unittest
 import FFUtils
+import unittest
 from FFElement import FFElement
-from EllipticCurveGroup import EllipticCurveGroup
 from AffineGroup import AffineGroup
 from AffineElement import AffineElement
+from EllipticCurveGroup import EllipticCurveGroup
 
 
 class TestFFEElement(unittest.TestCase):

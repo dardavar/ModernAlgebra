@@ -18,7 +18,7 @@ class AffineGroup:
         for point in points:
             print(point)
 
-    # generate list of the group supportive points which holds the equation of y^2=x^3+a*x+b
+    # Generate list of the group supportive points which holds the equation of y^2=x^3+a*x+b
     def generate_all_points(self):
         points = [self.generate_identity_element()]
         for x_value in range(0, self.p):
