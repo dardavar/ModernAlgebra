@@ -4,8 +4,6 @@ from FFElement import FFElement
 class AffineElement:
 
     def __init__(self, affine_group, x, y):
-
-
         self.x = x
         self.y = y
         self.affine_group = affine_group
@@ -22,8 +20,8 @@ class AffineElement:
         if self.is_identity():
             return self
         return AffineElement(self.affine_group, self.x, self.y.additive_inverse())
-    
-    def __eq__(self,other):
+
+    def __eq__(self, other):
         return (self.x.value == other.x.value) and (self.y.value == other.y.value)
 
     # Computes P+Q = R
@@ -38,9 +36,9 @@ class AffineElement:
             return self.affine_group.generate_identity_element()
         else:
             if self == other:
-                #find m using a diffrential eq.
+                # find m using a diffrential eq.
                 m = (FFElement(3, self.affine_group.p) * self.x ** 2 + self.affine_group.a) / (
-                            FFElement(2, self.affine_group.p) * self.y)
+                        FFElement(2, self.affine_group.p) * self.y)
             else:
                 m = ((other.y - self.y) / (other.x - self.x))
             x_R = m ** 2 - self.x - other.x
@@ -57,7 +55,7 @@ class AffineElement:
             a = self.multiply_by_value(n / 2)
             return a + a
 
-    #calc the order of an element by add  it to itself.
+    # calc the order of an element by add  it to itself.
     def calc_order(self):
         element_order = 0
         group_order = self.affine_group.order

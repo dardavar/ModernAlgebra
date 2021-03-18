@@ -8,11 +8,11 @@ class FFElement:
         self.value = value % characteristic
         self.characteristic = characteristic
 
-    #+ mod p
+    # + mod p
     def __add__(self, other):
         return FFElement((self.value + other.value) % self.characteristic, self.characteristic)
 
-    #add the additive_inverse
+    # add the additive_inverse
     def __sub__(self, other):
         return FFElement((self.value + other.additive_inverse().value) % self.characteristic, self.characteristic)
 
@@ -46,7 +46,7 @@ class FFElement:
 
         return FFElement(self.characteristic - self.value, self.characteristic)
 
-    #since p,x are coprime, we can get the inverse using the extended euclidean algorithm
+    # since p,x are coprime, we can get the inverse using the extended euclidean algorithm
     def multiplication_inverse(self):
         try:
             if self.value == 0:
@@ -57,7 +57,7 @@ class FFElement:
             print("Zero have no inverse, returning -1")
             return -1
 
-    #the order must divide p so its either 1 (for 0) or p (for any other element)
+    # the order must divide p so its either 1 (for 0) or p (for any other element)
     def additive_order(self):
         if self.value == 0:
             return 1
@@ -67,7 +67,7 @@ class FFElement:
     def additive_power(self, power):
         return FFElement((self.value * power) % self.characteristic, self.characteristic)
 
-    #calculate the powers efficiently using super power
+    # calculate the powers efficiently using super power
     def __pow__(self, power):
         return FFElement(FFUtils.super_power(self.value, power, self.characteristic), self.characteristic)
 
